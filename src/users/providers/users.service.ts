@@ -10,7 +10,7 @@ import {
   InternalServerErrorException,
   GatewayTimeoutException,
 } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { User } from '../user.entity';
 import { CreateUserDto } from '../dtos/create-user.dto';
 import { ConfigService } from '@nestjs/config';
@@ -34,6 +34,11 @@ export class UsersService {
      * Injecting ConfigService
      */
     private readonly configService: ConfigService,
+
+    /**
+     * Inject DataSource
+     */
+    private readonly dataSource: DataSource,
   ) {}
 
   public async createUser(createUserDto: CreateUserDto) {
@@ -111,5 +116,34 @@ export class UsersService {
     }
 
     return user;
+  }
+
+  public async createMany(createUsersDto: CreateUserDto[]) {
+    const newUsers: User[] = [];
+    // Create Query Runner Instance
+    const queryRunner = this.dataSource.createQueryRunner();
+
+    // Connect the QRI to the data source
+    await queryRunner.connect();
+
+    // Start transaction
+    await queryRunner.startTransaction();
+    try {
+      createUsersDto.forEach(async (user) => {
+        const newUser = queryRunner.manager.create(User, user);
+        const result = await queryRunner.manager.save(newUser);
+
+        newUsers.push(result);
+      });
+
+      // If successful - commit
+      await queryRunner.commitTransaction();
+    } catch (error) {
+      // If unsuccessful - rollback
+      await queryRunner.rollbackTransaction();
+    } finally {
+      // Release connection
+      await queryRunner.release();
+    }
   }
 }

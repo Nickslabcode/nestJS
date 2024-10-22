@@ -20,10 +20,11 @@ const typeorm_2 = require("typeorm");
 const user_entity_1 = require("../user.entity");
 const config_1 = require("@nestjs/config");
 let UsersService = class UsersService {
-    constructor(authService, usersRepository, configService) {
+    constructor(authService, usersRepository, configService, dataSource) {
         this.authService = authService;
         this.usersRepository = usersRepository;
         this.configService = configService;
+        this.dataSource = dataSource;
     }
     async createUser(createUserDto) {
         let existingUser = null;
@@ -77,6 +78,26 @@ let UsersService = class UsersService {
         }
         return user;
     }
+    async createMany(createUsersDto) {
+        const newUsers = [];
+        const queryRunner = this.dataSource.createQueryRunner();
+        await queryRunner.connect();
+        await queryRunner.startTransaction();
+        try {
+            createUsersDto.forEach(async (user) => {
+                const newUser = queryRunner.manager.create(user_entity_1.User, user);
+                const result = await queryRunner.manager.save(newUser);
+                newUsers.push(result);
+            });
+            await queryRunner.commitTransaction();
+        }
+        catch (error) {
+            await queryRunner.rollbackTransaction();
+        }
+        finally {
+            await queryRunner.release();
+        }
+    }
 };
 exports.UsersService = UsersService;
 exports.UsersService = UsersService = __decorate([
@@ -85,6 +106,7 @@ exports.UsersService = UsersService = __decorate([
     __param(1, (0, typeorm_1.InjectRepository)(user_entity_1.User)),
     __metadata("design:paramtypes", [auth_service_1.AuthService,
         typeorm_2.Repository,
-        config_1.ConfigService])
+        config_1.ConfigService,
+        typeorm_2.DataSource])
 ], UsersService);
 //# sourceMappingURL=users.service.js.map
