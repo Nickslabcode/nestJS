@@ -56,10 +56,34 @@ let PostsService = class PostsService {
         return this.postsRepository.save(post);
     }
     async update(patchPostDto) {
-        const tags = await this.tagsService.findMultipleTags(patchPostDto.tags);
-        const post = await this.postsRepository.findOneBy({
-            id: patchPostDto.id,
-        });
+        let tags = null;
+        let post = null;
+        try {
+            tags = await this.tagsService.findMultipleTags(patchPostDto.tags);
+        }
+        catch (error) {
+            throw new common_1.RequestTimeoutException('Unable to process your request. Please try again later', {
+                cause: error.message,
+                description: 'Error connecting to the database',
+            });
+        }
+        if (!tags || tags.length !== patchPostDto.tags.length) {
+            throw new common_1.BadRequestException('1 or more tags do not exist. Please check the tag IDs and try again.');
+        }
+        try {
+            post = await this.postsRepository.findOneBy({
+                id: patchPostDto.id,
+            });
+        }
+        catch (error) {
+            throw new common_1.RequestTimeoutException('Unable to process your request. Please try again later', {
+                cause: error.message,
+                description: 'Error connecting to the database',
+            });
+        }
+        if (!post) {
+            throw new common_1.BadRequestException('The post does not exist. Please check the post ID and try again.');
+        }
         post.title = patchPostDto.title ?? post.title;
         post.slug = patchPostDto.slug ?? post.slug;
         post.status = patchPostDto.status ?? post.status;
@@ -69,10 +93,28 @@ let PostsService = class PostsService {
             patchPostDto.featuredImageUrl ?? post.featuredImageUrl;
         post.publishedOn = patchPostDto.publishedOn ?? post.publishedOn;
         post.tags = tags;
-        return this.postsRepository.save(post);
+        let updatedPost = null;
+        try {
+            updatedPost = this.postsRepository.save(post);
+        }
+        catch (error) {
+            throw new common_1.RequestTimeoutException('Unable to update the post at the moment. Please try again later.', {
+                cause: error.message,
+                description: 'Error connecting to the database',
+            });
+        }
+        return updatedPost;
     }
     async delete(id) {
-        await this.postsRepository.delete(id);
+        try {
+            await this.postsRepository.delete(id);
+        }
+        catch (error) {
+            throw new common_1.RequestTimeoutException('Unable to process your request at the moment. Please try again later', {
+                cause: error.message,
+                description: 'Error connecting to the database',
+            });
+        }
         return { deleted: true, id };
     }
 };

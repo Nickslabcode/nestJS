@@ -18,7 +18,7 @@ export declare class PostsService {
         body: string;
     };
     create(createPostDto: CreatePostDto): Promise<Post>;
-    update(patchPostDto: PatchPostDto): Promise<Post>;
+    update(patchPostDto: PatchPostDto): Promise<any>;
     delete(id: number): Promise<{
         deleted: boolean;
         id: number;

@@ -1,5 +1,10 @@
 import { PatchPostDto } from './../dtos/patch-post.dto';
-import { Body, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Injectable,
+  RequestTimeoutException,
+} from '@nestjs/common';
 import { UsersService } from '../../users/providers/users.service';
 import { Repository } from 'typeorm';
 import { Post } from '../post.entity';
@@ -35,6 +40,7 @@ export class PostsService {
     private readonly metaOptionsRepository: Repository<MetaOption>,
   ) {}
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async findAll(userId: string) {
     const posts = await this.postsRepository.find({
       relations: {
@@ -72,12 +78,52 @@ export class PostsService {
   }
 
   public async update(@Body() patchPostDto: PatchPostDto) {
+    let tags = null;
+    let post = null;
+
     // Find tags
-    const tags = await this.tagsService.findMultipleTags(patchPostDto.tags);
+    try {
+      tags = await this.tagsService.findMultipleTags(patchPostDto.tags);
+    } catch (error) {
+      throw new RequestTimeoutException(
+        'Unable to process your request. Please try again later',
+        {
+          cause: error.message,
+          description: 'Error connecting to the database',
+        },
+      );
+    }
+
+    /**
+     * Check tags array length
+     */
+
+    if (!tags || tags.length !== patchPostDto.tags.length) {
+      throw new BadRequestException(
+        '1 or more tags do not exist. Please check the tag IDs and try again.',
+      );
+    }
+
     // Find post
-    const post = await this.postsRepository.findOneBy({
-      id: patchPostDto.id,
-    });
+    try {
+      post = await this.postsRepository.findOneBy({
+        id: patchPostDto.id,
+      });
+    } catch (error) {
+      throw new RequestTimeoutException(
+        'Unable to process your request. Please try again later',
+        {
+          cause: error.message,
+          description: 'Error connecting to the database',
+        },
+      );
+    }
+
+    if (!post) {
+      throw new BadRequestException(
+        'The post does not exist. Please check the post ID and try again.',
+      );
+    }
 
     // update properties
     post.title = patchPostDto.title ?? post.title;
@@ -91,12 +137,37 @@ export class PostsService {
 
     // assign tags to post
     post.tags = tags;
-    // save post and return
-    return this.postsRepository.save(post);
+
+    let updatedPost = null;
+
+    try {
+      // save post and return
+      updatedPost = this.postsRepository.save(post);
+    } catch (error) {
+      throw new RequestTimeoutException(
+        'Unable to update the post at the moment. Please try again later.',
+        {
+          cause: error.message,
+          description: 'Error connecting to the database',
+        },
+      );
+    }
+
+    return updatedPost;
   }
 
   public async delete(id: number) {
-    await this.postsRepository.delete(id);
+    try {
+      await this.postsRepository.delete(id);
+    } catch (error) {
+      throw new RequestTimeoutException(
+        'Unable to process your request at the moment. Please try again later',
+        {
+          cause: error.message,
+          description: 'Error connecting to the database',
+        },
+      );
+    }
 
     return { deleted: true, id };
   }

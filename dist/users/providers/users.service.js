@@ -26,7 +26,7 @@ let UsersService = class UsersService {
         this.configService = configService;
     }
     async createUser(createUserDto) {
-        let existingUser = undefined;
+        let existingUser = null;
         try {
             existingUser = await this.usersRepository.findOne({
                 where: { email: createUserDto.email },
@@ -60,7 +60,7 @@ let UsersService = class UsersService {
         return users;
     }
     async findOneById(id) {
-        let user = undefined;
+        let user = null;
         try {
             user = await this.usersRepository.findOneBy({
                 id,
