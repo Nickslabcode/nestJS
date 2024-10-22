@@ -14,28 +14,73 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostsController = void 0;
 const common_1 = require("@nestjs/common");
-const posts_service_js_1 = require("./providers/posts.service.js");
-const get_posts_param_dto_js_1 = require("./dtos/get-posts-param.dto.js");
+const posts_service_1 = require("./providers/posts.service");
+const create_post_dto_1 = require("./dtos/create-post.dto");
+const patch_post_dto_1 = require("./dtos/patch-post.dto");
+const swagger_1 = require("@nestjs/swagger");
 let PostsController = class PostsController {
     constructor(postsService) {
         this.postsService = postsService;
     }
-    getPosts(getPostParamDto, limit, page) {
-        return this.postsService.findAll(getPostParamDto, limit, page);
+    getPosts(userId) {
+        return this.postsService.findAll(userId);
+    }
+    createPost(createPostDto) {
+        return this.postsService.create(createPostDto);
+    }
+    patchPost(patchPostDto) {
+        return this.postsService.update(patchPostDto);
+    }
+    deletePost(id) {
+        return this.postsService.delete(id);
     }
 };
 exports.PostsController = PostsController;
 __decorate([
-    (0, common_1.Get)('/:id?'),
-    __param(0, (0, common_1.Param)()),
-    __param(1, (0, common_1.Query)('limit', new common_1.DefaultValuePipe(10), common_1.ParseIntPipe)),
-    __param(2, (0, common_1.Query)('page', new common_1.DefaultValuePipe(1), common_1.ParseIntPipe)),
+    (0, common_1.Get)('/:userId?'),
+    __param(0, (0, common_1.Param)('userId')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [get_posts_param_dto_js_1.GetPostsParamDto, Number, Number]),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], PostsController.prototype, "getPosts", null);
+__decorate([
+    (0, swagger_1.ApiOperation)({
+        summary: 'Creates a blog post',
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: 201,
+        description: 'You get a 201 response code if your post is created successfully',
+    }),
+    (0, common_1.Post)(),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [create_post_dto_1.CreatePostDto]),
+    __metadata("design:returntype", void 0)
+], PostsController.prototype, "createPost", null);
+__decorate([
+    (0, swagger_1.ApiOperation)({
+        summary: 'Updates a blog post corresponding to the given ID',
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: 201,
+        description: 'You get a 200 response code if your post is updated successfully',
+    }),
+    (0, common_1.Patch)(),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [patch_post_dto_1.PatchPostDto]),
+    __metadata("design:returntype", void 0)
+], PostsController.prototype, "patchPost", null);
+__decorate([
+    (0, common_1.Delete)(),
+    __param(0, (0, common_1.Query)('id', common_1.ParseIntPipe)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", void 0)
+], PostsController.prototype, "deletePost", null);
 exports.PostsController = PostsController = __decorate([
     (0, common_1.Controller)('posts'),
-    __metadata("design:paramtypes", [posts_service_js_1.PostsService])
+    (0, swagger_1.ApiTags)('Posts'),
+    __metadata("design:paramtypes", [posts_service_1.PostsService])
 ], PostsController);
 //# sourceMappingURL=posts.controller.js.map

@@ -12,10 +12,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.GetUsersParamDto = void 0;
 const class_validator_1 = require("class-validator");
 const class_transformer_1 = require("class-transformer");
+const swagger_1 = require("@nestjs/swagger");
 class GetUsersParamDto {
 }
 exports.GetUsersParamDto = GetUsersParamDto;
 __decorate([
+    (0, swagger_1.ApiPropertyOptional)({
+        description: 'Get user with specific ID',
+        example: 1234,
+    }),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsInt)(),
     (0, class_transformer_1.Type)(() => Number),

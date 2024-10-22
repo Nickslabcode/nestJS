@@ -1,33 +1,62 @@
 import {
   Body,
   Controller,
-  DefaultValuePipe,
+  Delete,
   Get,
   Param,
   ParseIntPipe,
+  Patch,
+  Post,
   Query,
 } from '@nestjs/common';
-import { PostsService } from './providers/posts.service.js';
-import { GetPostsParamDto } from './dtos/get-posts-param.dto.js';
+import { PostsService } from './providers/posts.service';
+import { CreatePostDto } from './dtos/create-post.dto';
+import { PatchPostDto } from './dtos/patch-post.dto';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @Controller('posts')
+@ApiTags('Posts')
 export class PostsController {
   constructor(
     // Inject PostsService
     private readonly postsService: PostsService,
   ) {}
 
-  @Get('/:id?')
-  public getPosts(
-    @Param() getPostParamDto: GetPostsParamDto,
-    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
-    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
-  ) {
-    return this.postsService.findAll(getPostParamDto, limit, page);
+  @Get('/:userId?')
+  public getPosts(@Param('userId') userId: string) {
+    return this.postsService.findAll(userId);
   }
 
   // Complete Post, Patch methods as well as the http requests and test them
 
-  // @Post()
-  // public createPost(@Body() createPostDto: CreatePostDto) {}
+  @ApiOperation({
+    summary: 'Creates a blog post',
+  })
+  @ApiResponse({
+    status: 201,
+    description:
+      'You get a 201 response code if your post is created successfully',
+  })
+  @Post()
+  public createPost(@Body() createPostDto: CreatePostDto) {
+    return this.postsService.create(createPostDto);
+  }
+
+  @ApiOperation({
+    summary: 'Updates a blog post corresponding to the given ID',
+  })
+  @ApiResponse({
+    status: 201,
+    description:
+      'You get a 200 response code if your post is updated successfully',
+  })
+  @Patch()
+  public patchPost(@Body() patchPostDto: PatchPostDto) {
+    return this.postsService.update(patchPostDto);
+  }
+
+  @Delete()
+  public deletePost(@Query('id', ParseIntPipe) id: number) {
+    return this.postsService.delete(id);
+  }
 }

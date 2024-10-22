@@ -1,0 +1,17 @@
+POST http://localhost:3000/posts
+Content-Type: application/json
+
+{
+  "title": "test post 2",
+  "postType": "post",
+  "slug": "test-post-7",
+  "status": "draft",
+  "content": "This is a test post body",
+  "schema": "{\"type\": \"test\"}",
+  "publishedOn": "2024-09-22T14:00:00.000Z",
+  "tags": [2, 3],
+  "metaOptions": {
+    "metaValue": "{\"sidebarEnabled\":true, \"footerActive\":true}"
+  },
+  "authorId": 1
+}
