@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  RequestTimeoutException,
+} from '@nestjs/common';
 import { User } from '../user.entity';
 import { DataSource } from 'typeorm';
 import { CreateManyUsersDto } from '../dtos/create-many-users.dto';
@@ -18,7 +22,17 @@ export class UsersCreateManyService {
     const queryRunner = this.dataSource.createQueryRunner();
 
     // Connect the QRI to the data source
-    await queryRunner.connect();
+    try {
+      await queryRunner.connect();
+    } catch (error) {
+      throw new RequestTimeoutException(
+        'Unable to process your request at the moment. Please try again later',
+        {
+          cause: error.message,
+          description: 'Error connecting to the database',
+        },
+      );
+    }
 
     // Start transaction
     await queryRunner.startTransaction();
@@ -43,9 +57,18 @@ export class UsersCreateManyService {
     } catch (error) {
       // If unsuccessful - rollback
       await queryRunner.rollbackTransaction();
+      throw new ConflictException('Could not complete transaction', {
+        cause: error.message,
+      });
     } finally {
-      // Release connection
-      await queryRunner.release();
+      try {
+        // Release connection
+        await queryRunner.release();
+      } catch (error) {
+        throw new RequestTimeoutException('Could not release the connection', {
+          cause: error.message,
+        });
+      }
     }
 
     return newUsers;
