@@ -18,13 +18,12 @@ const auth_service_1 = require("../../auth/providers/auth.service");
 const common_1 = require("@nestjs/common");
 const typeorm_2 = require("typeorm");
 const user_entity_1 = require("../user.entity");
-const config_1 = require("@nestjs/config");
+const users_create_many_service_1 = require("./users-create-many.service");
 let UsersService = class UsersService {
-    constructor(authService, usersRepository, configService, dataSource) {
+    constructor(authService, usersRepository, usersCreateManyService) {
         this.authService = authService;
         this.usersRepository = usersRepository;
-        this.configService = configService;
-        this.dataSource = dataSource;
+        this.usersCreateManyService = usersCreateManyService;
     }
     async createUser(createUserDto) {
         let existingUser = null;
@@ -55,8 +54,6 @@ let UsersService = class UsersService {
         return newUser;
     }
     async findAll(getUserParamDto, limit, page) {
-        const environment = this.configService.get('DATABASE_NAME');
-        console.log(environment);
         const users = this.usersRepository.find();
         return users;
     }
@@ -78,25 +75,8 @@ let UsersService = class UsersService {
         }
         return user;
     }
-    async createMany(createUsersDto) {
-        const newUsers = [];
-        const queryRunner = this.dataSource.createQueryRunner();
-        await queryRunner.connect();
-        await queryRunner.startTransaction();
-        try {
-            createUsersDto.forEach(async (user) => {
-                const newUser = queryRunner.manager.create(user_entity_1.User, user);
-                const result = await queryRunner.manager.save(newUser);
-                newUsers.push(result);
-            });
-            await queryRunner.commitTransaction();
-        }
-        catch (error) {
-            await queryRunner.rollbackTransaction();
-        }
-        finally {
-            await queryRunner.release();
-        }
+    async createMany(createManyUsersDto) {
+        return this.usersCreateManyService.createMany(createManyUsersDto);
     }
 };
 exports.UsersService = UsersService;
@@ -106,7 +86,6 @@ exports.UsersService = UsersService = __decorate([
     __param(1, (0, typeorm_1.InjectRepository)(user_entity_1.User)),
     __metadata("design:paramtypes", [auth_service_1.AuthService,
         typeorm_2.Repository,
-        config_1.ConfigService,
-        typeorm_2.DataSource])
+        users_create_many_service_1.UsersCreateManyService])
 ], UsersService);
 //# sourceMappingURL=users.service.js.map

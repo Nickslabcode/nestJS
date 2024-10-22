@@ -1,3 +1,4 @@
+import { CreateUserDto } from './../dtos/create-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AuthService } from '../../auth/providers/auth.service';
 import { GetUsersParamDto } from './../dtos/get-users-param.dto';
@@ -7,13 +8,11 @@ import {
   forwardRef,
   RequestTimeoutException,
   BadRequestException,
-  InternalServerErrorException,
-  GatewayTimeoutException,
 } from '@nestjs/common';
-import { DataSource, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { User } from '../user.entity';
-import { CreateUserDto } from '../dtos/create-user.dto';
-import { ConfigService } from '@nestjs/config';
+import { UsersCreateManyService } from './users-create-many.service';
+import { CreateManyUsersDto } from '../dtos/create-many-users.dto';
 
 @Injectable()
 export class UsersService {
@@ -31,14 +30,9 @@ export class UsersService {
     private readonly usersRepository: Repository<User>,
 
     /**
-     * Injecting ConfigService
+     * Inject usersCreateManyService
      */
-    private readonly configService: ConfigService,
-
-    /**
-     * Inject DataSource
-     */
-    private readonly dataSource: DataSource,
+    private readonly usersCreateManyService: UsersCreateManyService,
   ) {}
 
   public async createUser(createUserDto: CreateUserDto) {
@@ -82,14 +76,14 @@ export class UsersService {
   }
 
   public async findAll(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     getUserParamDto: GetUsersParamDto,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     limit: number,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     page: number,
   ) {
-    const environment = this.configService.get<string>('DATABASE_NAME');
-    console.log(environment);
     // const isAuth = this.authService.isAuth();
-
     const users = this.usersRepository.find();
     return users;
   }
@@ -118,32 +112,7 @@ export class UsersService {
     return user;
   }
 
-  public async createMany(createUsersDto: CreateUserDto[]) {
-    const newUsers: User[] = [];
-    // Create Query Runner Instance
-    const queryRunner = this.dataSource.createQueryRunner();
-
-    // Connect the QRI to the data source
-    await queryRunner.connect();
-
-    // Start transaction
-    await queryRunner.startTransaction();
-    try {
-      createUsersDto.forEach(async (user) => {
-        const newUser = queryRunner.manager.create(User, user);
-        const result = await queryRunner.manager.save(newUser);
-
-        newUsers.push(result);
-      });
-
-      // If successful - commit
-      await queryRunner.commitTransaction();
-    } catch (error) {
-      // If unsuccessful - rollback
-      await queryRunner.rollbackTransaction();
-    } finally {
-      // Release connection
-      await queryRunner.release();
-    }
+  public async createMany(createManyUsersDto: CreateManyUsersDto) {
+    return this.usersCreateManyService.createMany(createManyUsersDto);
   }
 }

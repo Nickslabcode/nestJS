@@ -19,6 +19,7 @@ const get_users_param_dto_1 = require("./dtos/get-users-param.dto");
 const patch_user_dto_1 = require("./dtos/patch-user.dto");
 const users_service_1 = require("./providers/users.service");
 const swagger_1 = require("@nestjs/swagger");
+const create_many_users_dto_1 = require("./dtos/create-many-users.dto");
 let UsersController = class UsersController {
     constructor(usersService) {
         this.usersService = usersService;
@@ -28,6 +29,9 @@ let UsersController = class UsersController {
     }
     createUsers(createUserDto) {
         return this.usersService.createUser(createUserDto);
+    }
+    createManyUsers(createManyUsersDto) {
+        return this.usersService.createMany(createManyUsersDto);
     }
     patchUser(patchUserDto) {
         return patchUserDto;
@@ -71,6 +75,13 @@ __decorate([
     __metadata("design:paramtypes", [create_user_dto_1.CreateUserDto]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "createUsers", null);
+__decorate([
+    (0, common_1.Post)('create-many'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [create_many_users_dto_1.CreateManyUsersDto]),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "createManyUsers", null);
 __decorate([
     (0, common_1.Patch)(),
     __param(0, (0, common_1.Body)()),

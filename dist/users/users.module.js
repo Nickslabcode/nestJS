@@ -13,13 +13,14 @@ const users_service_1 = require("./providers/users.service");
 const auth_module_1 = require("../auth/auth.module");
 const typeorm_1 = require("@nestjs/typeorm");
 const user_entity_1 = require("./user.entity");
+const users_create_many_service_1 = require("./providers/users-create-many.service");
 let UsersModule = class UsersModule {
 };
 exports.UsersModule = UsersModule;
 exports.UsersModule = UsersModule = __decorate([
     (0, common_1.Module)({
         controllers: [users_controller_1.UsersController],
-        providers: [users_service_1.UsersService],
+        providers: [users_service_1.UsersService, users_create_many_service_1.UsersCreateManyService],
         exports: [users_service_1.UsersService],
         imports: [(0, common_1.forwardRef)(() => auth_module_1.AuthModule), typeorm_1.TypeOrmModule.forFeature([user_entity_1.User])],
     })
