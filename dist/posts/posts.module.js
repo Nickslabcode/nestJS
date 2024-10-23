@@ -15,6 +15,7 @@ const users_module_1 = require("../users/users.module");
 const typeorm_1 = require("@nestjs/typeorm");
 const post_entity_1 = require("./post.entity");
 const meta_option_entity_1 = require("../meta-options/meta-option.entity");
+const pagination_module_1 = require("../common/pagination/pagination.module");
 let PostsModule = class PostsModule {
 };
 exports.PostsModule = PostsModule;
@@ -25,6 +26,7 @@ exports.PostsModule = PostsModule = __decorate([
         imports: [
             users_module_1.UsersModule,
             tags_module_1.TagsModule,
+            pagination_module_1.PaginationModule,
             typeorm_1.TypeOrmModule.forFeature([post_entity_1.Post, meta_option_entity_1.MetaOption]),
         ],
     })

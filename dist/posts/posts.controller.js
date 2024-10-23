@@ -18,12 +18,14 @@ const posts_service_1 = require("./providers/posts.service");
 const create_post_dto_1 = require("./dtos/create-post.dto");
 const patch_post_dto_1 = require("./dtos/patch-post.dto");
 const swagger_1 = require("@nestjs/swagger");
+const get_posts_dto_1 = require("../users/dtos/get-posts.dto");
 let PostsController = class PostsController {
     constructor(postsService) {
         this.postsService = postsService;
     }
-    getPosts(userId) {
-        return this.postsService.findAll(userId);
+    getPosts(userId, postQuery) {
+        console.log(postQuery);
+        return this.postsService.findAll(postQuery, userId);
     }
     createPost(createPostDto) {
         return this.postsService.create(createPostDto);
@@ -39,8 +41,9 @@ exports.PostsController = PostsController;
 __decorate([
     (0, common_1.Get)('/:userId?'),
     __param(0, (0, common_1.Param)('userId')),
+    __param(1, (0, common_1.Query)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [String, get_posts_dto_1.GetPostsDto]),
     __metadata("design:returntype", void 0)
 ], PostsController.prototype, "getPosts", null);
 __decorate([

@@ -17,6 +17,7 @@ const typeorm_1 = require("@nestjs/typeorm");
 const tags_module_1 = require("./tags/tags.module");
 const meta_options_module_1 = require("./meta-options/meta-options.module");
 const config_1 = require("@nestjs/config");
+const pagination_module_1 = require("./common/pagination/pagination.module");
 const app_config_1 = require("./config/app.config");
 const database_config_1 = require("./config/database.config");
 const environment_validation_1 = require("./config/environment.validation");
@@ -52,6 +53,7 @@ exports.AppModule = AppModule = __decorate([
             }),
             tags_module_1.TagsModule,
             meta_options_module_1.MetaOptionsModule,
+            pagination_module_1.PaginationModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

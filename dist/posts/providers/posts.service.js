@@ -22,19 +22,20 @@ const typeorm_2 = require("@nestjs/typeorm");
 const meta_option_entity_1 = require("../../meta-options/meta-option.entity");
 const create_post_dto_1 = require("../dtos/create-post.dto");
 const tags_service_1 = require("../../tags/providers/tags.service");
+const pagination_service_1 = require("../../common/pagination/providers/pagination.service");
 let PostsService = class PostsService {
-    constructor(usersService, tagsService, postsRepository, metaOptionsRepository) {
+    constructor(usersService, tagsService, paginationService, postsRepository, metaOptionsRepository) {
         this.usersService = usersService;
         this.tagsService = tagsService;
+        this.paginationService = paginationService;
         this.postsRepository = postsRepository;
         this.metaOptionsRepository = metaOptionsRepository;
     }
-    async findAll(userId) {
-        const posts = await this.postsRepository.find({
-            relations: {
-                metaOptions: true,
-            },
-        });
+    async findAll(postQuery, userId) {
+        const posts = this.paginationService.paginateQuery({
+            limit: postQuery.limit,
+            page: postQuery.page,
+        }, this.postsRepository);
         return posts;
     }
     FindOneById(id) {
@@ -133,10 +134,11 @@ __decorate([
 ], PostsService.prototype, "update", null);
 exports.PostsService = PostsService = __decorate([
     (0, common_1.Injectable)(),
-    __param(2, (0, typeorm_2.InjectRepository)(post_entity_1.Post)),
-    __param(3, (0, typeorm_2.InjectRepository)(meta_option_entity_1.MetaOption)),
+    __param(3, (0, typeorm_2.InjectRepository)(post_entity_1.Post)),
+    __param(4, (0, typeorm_2.InjectRepository)(meta_option_entity_1.MetaOption)),
     __metadata("design:paramtypes", [users_service_1.UsersService,
         tags_service_1.TagsService,
+        pagination_service_1.PaginationService,
         typeorm_1.Repository,
         typeorm_1.Repository])
 ], PostsService);
