@@ -14,6 +14,7 @@ import { CreatePostDto } from '../dtos/create-post.dto';
 import { TagsService } from '../../tags/providers/tags.service';
 import { GetPostsDto } from 'src/users/dtos/get-posts.dto';
 import { PaginationService } from 'src/common/pagination/providers/pagination.service';
+import { Paginated } from 'src/common/pagination/interfaces/paginated.interface';
 
 @Injectable()
 export class PostsService {
@@ -49,7 +50,11 @@ export class PostsService {
   ) {}
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public async findAll(postQuery: GetPostsDto, userId: string) {
+  public async findAll(
+    postQuery: GetPostsDto,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    userId: string,
+  ): Promise<Paginated<Post>> {
     const posts = this.paginationService.paginateQuery(
       {
         limit: postQuery.limit,

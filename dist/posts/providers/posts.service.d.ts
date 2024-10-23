@@ -7,6 +7,7 @@ import { CreatePostDto } from '../dtos/create-post.dto';
 import { TagsService } from '../../tags/providers/tags.service';
 import { GetPostsDto } from 'src/users/dtos/get-posts.dto';
 import { PaginationService } from 'src/common/pagination/providers/pagination.service';
+import { Paginated } from 'src/common/pagination/interfaces/paginated.interface';
 export declare class PostsService {
     private readonly usersService;
     private readonly tagsService;
@@ -14,7 +15,7 @@ export declare class PostsService {
     private readonly postsRepository;
     private readonly metaOptionsRepository;
     constructor(usersService: UsersService, tagsService: TagsService, paginationService: PaginationService, postsRepository: Repository<Post>, metaOptionsRepository: Repository<MetaOption>);
-    findAll(postQuery: GetPostsDto, userId: string): Promise<Post[]>;
+    findAll(postQuery: GetPostsDto, userId: string): Promise<Paginated<Post>>;
     FindOneById(id: number): {
         title: string;
         author: string;

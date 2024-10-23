@@ -5,8 +5,8 @@
   exports.endDate = date.toString();
 }}
 
-GET http://localhost:3000/posts
+GET http://localhost:3000/posts/
   ?startDate={{startDate}}
   &endDate={{endDate}}
-  &limit=2
-  &page=2
+  &limit=1
+  &page=1
