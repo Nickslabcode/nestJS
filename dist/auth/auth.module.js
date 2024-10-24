@@ -12,13 +12,14 @@ const auth_controller_1 = require("./auth.controller");
 const auth_service_1 = require("./providers/auth.service");
 const users_module_1 = require("../users/users.module");
 const hashing_service_1 = require("./providers/hashing.service");
+const bcrypt_service_1 = require("./providers/bcrypt.service");
 let AuthModule = class AuthModule {
 };
 exports.AuthModule = AuthModule;
 exports.AuthModule = AuthModule = __decorate([
     (0, common_1.Module)({
         controllers: [auth_controller_1.AuthController],
-        providers: [auth_service_1.AuthService, hashing_service_1.HashingService],
+        providers: [auth_service_1.AuthService, hashing_service_1.HashingService, bcrypt_service_1.BcryptService],
         exports: [auth_service_1.AuthService],
         imports: [(0, common_1.forwardRef)(() => users_module_1.UsersModule)],
     })
