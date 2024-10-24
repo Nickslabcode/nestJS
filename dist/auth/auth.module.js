@@ -14,6 +14,9 @@ const users_module_1 = require("../users/users.module");
 const hashing_service_1 = require("./providers/hashing.service");
 const bcrypt_service_1 = require("./providers/bcrypt.service");
 const sign_in_service_1 = require("./providers/sign-in.service");
+const config_1 = require("@nestjs/config");
+const jwt_config_1 = require("./config/jwt.config");
+const jwt_1 = require("@nestjs/jwt");
 let AuthModule = class AuthModule {
 };
 exports.AuthModule = AuthModule;
@@ -28,7 +31,11 @@ exports.AuthModule = AuthModule = __decorate([
             },
             sign_in_service_1.SignInService,
         ],
-        imports: [(0, common_1.forwardRef)(() => users_module_1.UsersModule)],
+        imports: [
+            (0, common_1.forwardRef)(() => users_module_1.UsersModule),
+            config_1.ConfigModule.forFeature(jwt_config_1.default),
+            jwt_1.JwtModule.registerAsync(jwt_config_1.default.asProvider()),
+        ],
         exports: [auth_service_1.AuthService, hashing_service_1.HashingService],
     })
 ], AuthModule);
