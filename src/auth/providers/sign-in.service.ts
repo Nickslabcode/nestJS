@@ -33,7 +33,7 @@ export class SignInService {
 
     try {
       isEqual = await this.hashingService.comparePassword(
-        signInDto.email,
+        signInDto.password,
         user.password,
       );
     } catch (error) {
