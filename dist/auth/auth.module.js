@@ -13,6 +13,7 @@ const auth_service_1 = require("./providers/auth.service");
 const users_module_1 = require("../users/users.module");
 const hashing_service_1 = require("./providers/hashing.service");
 const bcrypt_service_1 = require("./providers/bcrypt.service");
+const sign_in_service_1 = require("./providers/sign-in.service");
 let AuthModule = class AuthModule {
 };
 exports.AuthModule = AuthModule;
@@ -25,6 +26,7 @@ exports.AuthModule = AuthModule = __decorate([
                 provide: hashing_service_1.HashingService,
                 useClass: bcrypt_service_1.BcryptService,
             },
+            sign_in_service_1.SignInService,
         ],
         imports: [(0, common_1.forwardRef)(() => users_module_1.UsersModule)],
         exports: [auth_service_1.AuthService, hashing_service_1.HashingService],

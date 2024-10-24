@@ -4,6 +4,7 @@ import { AuthService } from './providers/auth.service';
 import { UsersModule } from '../users/users.module';
 import { HashingService } from './providers/hashing.service';
 import { BcryptService } from './providers/bcrypt.service';
+import { SignInService } from './providers/sign-in.service';
 
 @Module({
   controllers: [AuthController],
@@ -14,6 +15,7 @@ import { BcryptService } from './providers/bcrypt.service';
       provide: HashingService,
       useClass: BcryptService,
     },
+    SignInService,
   ],
   imports: [forwardRef(() => UsersModule)],
   exports: [AuthService, HashingService],

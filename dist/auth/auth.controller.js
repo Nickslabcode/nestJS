@@ -20,7 +20,9 @@ let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
     }
-    async signIn(signInDto) { }
+    async signIn(signInDto) {
+        return this.authService.signIn(signInDto);
+    }
 };
 exports.AuthController = AuthController;
 __decorate([
