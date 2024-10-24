@@ -8,6 +8,9 @@ import {
 } from '@nestjs/common';
 import { SignInDto } from '../dtos/SignIn.dto';
 import { UsersService } from 'src/users/providers/users.service';
+import { JwtService } from '@nestjs/jwt';
+import { ConfigType } from '@nestjs/config';
+import jwtConfig from '../config/jwt.config';
 
 @Injectable()
 export class SignInService {
@@ -22,6 +25,17 @@ export class SignInService {
      * Injecting hashingService
      */
     private readonly hashingService: HashingService,
+
+    /**
+     * Injecting jwtService
+     */
+    private readonly jwtService: JwtService,
+
+    /**
+     * Injecting jwtConfiguration
+     */
+    @Inject(jwtConfig.KEY)
+    private readonly jwtConfiguration: ConfigType<typeof jwtConfig>,
   ) {}
   public async signIn(signInDto: SignInDto) {
     // Find user using email ID
@@ -42,12 +56,30 @@ export class SignInService {
       });
     }
 
-    // if not equal
+    // If not equal
     if (!isEqual) {
       throw new UnauthorizedException('Password is incorrect.');
     }
 
+    // Generate JWT token
+    const accessToken = this.jwtService.signAsync(
+      {
+        sub: user.id,
+        email: user.email,
+      },
+      {
+        audience: this.jwtConfiguration.audience,
+        issuer: this.jwtConfiguration.issuer,
+        secret: this.jwtConfiguration.secret,
+        expiresIn: this.jwtConfiguration.accessTokenTtl,
+      },
+    );
+
     // Send confirmation
-    return { success: isEqual, message: 'User signed in successfully.' };
+    return {
+      success: isEqual,
+      accessToken,
+      message: 'User signed in successfully',
+    };
   }
 }
