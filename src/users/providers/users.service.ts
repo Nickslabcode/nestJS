@@ -14,6 +14,7 @@ import { User } from '../user.entity';
 import { UsersCreateManyService } from './users-create-many.service';
 import { CreateManyUsersDto } from '../dtos/create-many-users.dto';
 import { CreateUserService } from './create-user.service';
+import { FindOneByEmailService } from './find-one-by-email.service';
 
 @Injectable()
 export class UsersService {
@@ -40,6 +41,11 @@ export class UsersService {
      */
 
     private readonly createUserService: CreateUserService,
+
+    /**
+     * Injecting findOneByEmailService
+     */
+    private readonly findOneByEmailService: FindOneByEmailService,
   ) {}
 
   public async createUser(createUserDto: CreateUserDto) {
@@ -85,5 +91,9 @@ export class UsersService {
 
   public async createMany(createManyUsersDto: CreateManyUsersDto) {
     return this.usersCreateManyService.createMany(createManyUsersDto);
+  }
+
+  public async findOneByEmail(email: string) {
+    return this.findOneByEmailService.findOneByEmail(email);
   }
 }

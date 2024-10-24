@@ -1,3 +1,4 @@
+import { SignInDto } from './../dtos/SignIn.dto';
 import { Injectable, Inject, forwardRef } from '@nestjs/common';
 import { UsersService } from '../../users/providers/users.service';
 
@@ -11,12 +12,11 @@ export class AuthService {
     private readonly usersService: UsersService,
   ) {}
 
-  public login(email: string, password: string, id: string) {
-    // Check if user exists
-    // const user = this.usersService.findOneById('1234');
-    // login
-    // token
-    return 'SAMPLE_TOKEN';
+  public signIn(signInDto: SignInDto) {
+    // Find user using email ID
+    // Throw exception if not found
+    // Compare password to the hash
+    // Send confirmation
   }
 
   public isAuth() {

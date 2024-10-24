@@ -1,7 +1,8 @@
+import { SignInDto } from './../dtos/SignIn.dto';
 import { UsersService } from '../../users/providers/users.service';
 export declare class AuthService {
     private readonly usersService;
     constructor(usersService: UsersService);
-    login(email: string, password: string, id: string): string;
+    signIn(signInDto: SignInDto): void;
     isAuth(): boolean;
 }

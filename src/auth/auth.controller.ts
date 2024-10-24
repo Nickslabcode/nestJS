@@ -1,6 +1,7 @@
-import { Controller } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 // import { UsersService } from '../users/providers/users.service.js';
 import { AuthService } from './providers/auth.service';
+import { SignInDto } from './dtos/SignIn.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -11,4 +12,7 @@ export class AuthController {
 
     private readonly authService: AuthService,
   ) {}
+
+  @Post('sign-in')
+  public async signIn(@Body() signInDto: SignInDto) {}
 }

@@ -20,12 +20,14 @@ const typeorm_2 = require("typeorm");
 const user_entity_1 = require("../user.entity");
 const users_create_many_service_1 = require("./users-create-many.service");
 const create_user_service_1 = require("./create-user.service");
+const find_one_by_email_service_1 = require("./find-one-by-email.service");
 let UsersService = class UsersService {
-    constructor(authService, usersRepository, usersCreateManyService, createUserService) {
+    constructor(authService, usersRepository, usersCreateManyService, createUserService, findOneByEmailService) {
         this.authService = authService;
         this.usersRepository = usersRepository;
         this.usersCreateManyService = usersCreateManyService;
         this.createUserService = createUserService;
+        this.findOneByEmailService = findOneByEmailService;
     }
     async createUser(createUserDto) {
         return this.createUserService.createUser(createUserDto);
@@ -55,6 +57,9 @@ let UsersService = class UsersService {
     async createMany(createManyUsersDto) {
         return this.usersCreateManyService.createMany(createManyUsersDto);
     }
+    async findOneByEmail(email) {
+        return this.findOneByEmailService.findOneByEmail(email);
+    }
 };
 exports.UsersService = UsersService;
 exports.UsersService = UsersService = __decorate([
@@ -64,6 +69,7 @@ exports.UsersService = UsersService = __decorate([
     __metadata("design:paramtypes", [auth_service_1.AuthService,
         typeorm_2.Repository,
         users_create_many_service_1.UsersCreateManyService,
-        create_user_service_1.CreateUserService])
+        create_user_service_1.CreateUserService,
+        find_one_by_email_service_1.FindOneByEmailService])
 ], UsersService);
 //# sourceMappingURL=users.service.js.map

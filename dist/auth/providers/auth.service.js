@@ -19,8 +19,7 @@ let AuthService = class AuthService {
     constructor(usersService) {
         this.usersService = usersService;
     }
-    login(email, password, id) {
-        return 'SAMPLE_TOKEN';
+    signIn(signInDto) {
     }
     isAuth() {
         return true;
