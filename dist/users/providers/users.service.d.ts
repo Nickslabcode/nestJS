@@ -5,11 +5,13 @@ import { Repository } from 'typeorm';
 import { User } from '../user.entity';
 import { UsersCreateManyService } from './users-create-many.service';
 import { CreateManyUsersDto } from '../dtos/create-many-users.dto';
+import { CreateUserService } from './create-user.service';
 export declare class UsersService {
     private readonly authService;
     private readonly usersRepository;
     private readonly usersCreateManyService;
-    constructor(authService: AuthService, usersRepository: Repository<User>, usersCreateManyService: UsersCreateManyService);
+    private readonly createUserService;
+    constructor(authService: AuthService, usersRepository: Repository<User>, usersCreateManyService: UsersCreateManyService, createUserService: CreateUserService);
     createUser(createUserDto: CreateUserDto): Promise<User>;
     findAll(getUserParamDto: GetUsersParamDto, limit: number, page: number): Promise<User[]>;
     findOneById(id: number): Promise<any>;

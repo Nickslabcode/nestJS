@@ -5,10 +5,11 @@ import { AuthModule } from '../auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { UsersCreateManyService } from './providers/users-create-many.service';
+import { CreateUserService } from './providers/create-user.service';
 
 @Module({
   controllers: [UsersController],
-  providers: [UsersService, UsersCreateManyService],
+  providers: [UsersService, UsersCreateManyService, CreateUserService],
   exports: [UsersService],
   imports: [forwardRef(() => AuthModule), TypeOrmModule.forFeature([User])],
 })

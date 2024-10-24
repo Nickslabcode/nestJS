@@ -19,39 +19,16 @@ const common_1 = require("@nestjs/common");
 const typeorm_2 = require("typeorm");
 const user_entity_1 = require("../user.entity");
 const users_create_many_service_1 = require("./users-create-many.service");
+const create_user_service_1 = require("./create-user.service");
 let UsersService = class UsersService {
-    constructor(authService, usersRepository, usersCreateManyService) {
+    constructor(authService, usersRepository, usersCreateManyService, createUserService) {
         this.authService = authService;
         this.usersRepository = usersRepository;
         this.usersCreateManyService = usersCreateManyService;
+        this.createUserService = createUserService;
     }
     async createUser(createUserDto) {
-        let existingUser = null;
-        try {
-            existingUser = await this.usersRepository.findOne({
-                where: { email: createUserDto.email },
-            });
-        }
-        catch (error) {
-            throw new common_1.RequestTimeoutException('Unable to process your request at the moment. Please try again later.', {
-                cause: error.message,
-                description: 'Error connecting to the database',
-            });
-        }
-        if (existingUser) {
-            throw new common_1.BadRequestException('The user already exists. Please check your email');
-        }
-        let newUser = this.usersRepository.create(createUserDto);
-        try {
-            newUser = await this.usersRepository.save(newUser);
-        }
-        catch (error) {
-            throw new common_1.RequestTimeoutException('Unable to create a new user at the moment. Please try again later.', {
-                cause: error.message,
-                description: 'Error connecting to the database',
-            });
-        }
-        return newUser;
+        return this.createUserService.createUser(createUserDto);
     }
     async findAll(getUserParamDto, limit, page) {
         const users = this.usersRepository.find();
@@ -86,6 +63,7 @@ exports.UsersService = UsersService = __decorate([
     __param(1, (0, typeorm_1.InjectRepository)(user_entity_1.User)),
     __metadata("design:paramtypes", [auth_service_1.AuthService,
         typeorm_2.Repository,
-        users_create_many_service_1.UsersCreateManyService])
+        users_create_many_service_1.UsersCreateManyService,
+        create_user_service_1.CreateUserService])
 ], UsersService);
 //# sourceMappingURL=users.service.js.map

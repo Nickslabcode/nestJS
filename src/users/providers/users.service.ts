@@ -13,6 +13,7 @@ import { Repository } from 'typeorm';
 import { User } from '../user.entity';
 import { UsersCreateManyService } from './users-create-many.service';
 import { CreateManyUsersDto } from '../dtos/create-many-users.dto';
+import { CreateUserService } from './create-user.service';
 
 @Injectable()
 export class UsersService {
@@ -33,46 +34,16 @@ export class UsersService {
      * Inject usersCreateManyService
      */
     private readonly usersCreateManyService: UsersCreateManyService,
+
+    /**
+     * Injecting createUserService
+     */
+
+    private readonly createUserService: CreateUserService,
   ) {}
 
   public async createUser(createUserDto: CreateUserDto) {
-    // Check if user already exists with the same email
-    let existingUser = null;
-
-    try {
-      existingUser = await this.usersRepository.findOne({
-        where: { email: createUserDto.email },
-      });
-    } catch (error) {
-      throw new RequestTimeoutException(
-        'Unable to process your request at the moment. Please try again later.',
-        {
-          cause: error.message,
-          description: 'Error connecting to the database',
-        },
-      );
-    }
-    // Handle exceptions
-    if (existingUser) {
-      throw new BadRequestException(
-        'The user already exists. Please check your email',
-      );
-    }
-    // Create a new user
-    let newUser = this.usersRepository.create(createUserDto);
-    try {
-      newUser = await this.usersRepository.save(newUser);
-    } catch (error) {
-      throw new RequestTimeoutException(
-        'Unable to create a new user at the moment. Please try again later.',
-        {
-          cause: error.message,
-          description: 'Error connecting to the database',
-        },
-      );
-    }
-
-    return newUser;
+    return this.createUserService.createUser(createUserDto);
   }
 
   public async findAll(

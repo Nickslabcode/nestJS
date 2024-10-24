@@ -19,9 +19,15 @@ exports.AuthModule = AuthModule;
 exports.AuthModule = AuthModule = __decorate([
     (0, common_1.Module)({
         controllers: [auth_controller_1.AuthController],
-        providers: [auth_service_1.AuthService, hashing_service_1.HashingService, bcrypt_service_1.BcryptService],
-        exports: [auth_service_1.AuthService],
+        providers: [
+            auth_service_1.AuthService,
+            {
+                provide: hashing_service_1.HashingService,
+                useClass: bcrypt_service_1.BcryptService,
+            },
+        ],
         imports: [(0, common_1.forwardRef)(() => users_module_1.UsersModule)],
+        exports: [auth_service_1.AuthService, hashing_service_1.HashingService],
     })
 ], AuthModule);
 //# sourceMappingURL=auth.module.js.map

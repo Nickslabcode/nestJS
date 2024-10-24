@@ -7,8 +7,15 @@ import { BcryptService } from './providers/bcrypt.service';
 
 @Module({
   controllers: [AuthController],
-  providers: [AuthService, HashingService, BcryptService],
-  exports: [AuthService],
+  providers: [
+    AuthService,
+    {
+      // When there's an abstract class
+      provide: HashingService,
+      useClass: BcryptService,
+    },
+  ],
   imports: [forwardRef(() => UsersModule)],
+  exports: [AuthService, HashingService],
 })
 export class AuthModule {}
