@@ -62,7 +62,7 @@ export class SignInService {
     }
 
     // Generate JWT token
-    const accessToken = this.jwtService.signAsync(
+    const accessToken = await this.jwtService.signAsync(
       {
         sub: user.id,
         email: user.email,
@@ -74,7 +74,7 @@ export class SignInService {
         expiresIn: this.jwtConfiguration.accessTokenTtl,
       },
     );
-
+    console.log(accessToken);
     // Send confirmation
     return {
       success: isEqual,

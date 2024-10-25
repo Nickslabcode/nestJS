@@ -5,7 +5,7 @@ export declare class AuthController {
     constructor(authService: AuthService);
     signIn(signInDto: SignInDto): Promise<{
         success: true;
-        accessToken: Promise<string>;
+        accessToken: string;
         message: string;
     }>;
 }

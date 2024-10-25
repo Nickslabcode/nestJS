@@ -7,7 +7,7 @@ export declare class AuthService {
     constructor(usersService: UsersService, signInService: SignInService);
     signIn(signInDto: SignInDto): Promise<{
         success: true;
-        accessToken: Promise<string>;
+        accessToken: string;
         message: string;
     }>;
     isAuth(): boolean;
