@@ -1,10 +1,11 @@
 POST http://localhost:3000/posts
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjE2LCJlbWFpbCI6Im5pY2tAZ21haWwuY29tIiwiaWF0IjoxNzI5ODcxNTg4LCJleHAiOjE3Mjk4NzUxODgsImF1ZCI6ImxvY2FsaG9zdDozMDAwIiwiaXNzIjoibG9jYWxob3N0OjMwMDAifQ.drx0HU-Wom53fVF6NSIF_jBS5UR4zCDy1WsQk9P8coI
 
 {
   "title": "test post 2",
   "postType": "post",
-  "slug": "test-post-7",
+  "slug": "test-post-8",
   "status": "draft",
   "content": "This is a test post body",
   "schema": "{\"type\": \"test\"}",
