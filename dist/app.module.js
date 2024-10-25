@@ -21,6 +21,10 @@ const pagination_module_1 = require("./common/pagination/pagination.module");
 const app_config_1 = require("./config/app.config");
 const database_config_1 = require("./config/database.config");
 const environment_validation_1 = require("./config/environment.validation");
+const jwt_config_1 = require("./auth/config/jwt.config");
+const jwt_1 = require("@nestjs/jwt");
+const core_1 = require("@nestjs/core");
+const access_token_guard_1 = require("./auth/guards/access-token/access-token.guard");
 const ENV = process.env.NODE_ENV;
 let AppModule = class AppModule {
 };
@@ -51,12 +55,20 @@ exports.AppModule = AppModule = __decorate([
                     database: configService.get('database.name'),
                 }),
             }),
+            config_1.ConfigModule.forFeature(jwt_config_1.default),
+            jwt_1.JwtModule.registerAsync(jwt_config_1.default.asProvider()),
             tags_module_1.TagsModule,
             meta_options_module_1.MetaOptionsModule,
             pagination_module_1.PaginationModule,
         ],
         controllers: [app_controller_1.AppController],
-        providers: [app_service_1.AppService],
+        providers: [
+            app_service_1.AppService,
+            {
+                provide: core_1.APP_GUARD,
+                useClass: access_token_guard_1.AccessTokenGuard,
+            },
+        ],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map
