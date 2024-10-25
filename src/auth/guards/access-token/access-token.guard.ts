@@ -27,9 +27,7 @@ export class AccessTokenGuard implements CanActivate {
     private readonly jwtConfiguration: ConfigType<typeof jwtConfig>,
   ) {}
 
-  canActivate(
-    context: ExecutionContext,
-  ): boolean | Promise<boolean> | Observable<boolean> {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     // Extract the request from the execution context
     const request = context.switchToHttp().getRequest();
     // Extract the JWT token from the header
@@ -40,7 +38,10 @@ export class AccessTokenGuard implements CanActivate {
     }
 
     try {
-      const payload = this.jwtService.verifyAsync(token, this.jwtConfiguration);
+      const payload = await this.jwtService.verifyAsync(
+        token,
+        this.jwtConfiguration,
+      );
       request[REQUEST_USER_KEY] = payload;
       console.log(payload);
     } catch {

@@ -74,7 +74,7 @@ export class SignInService {
         expiresIn: this.jwtConfiguration.accessTokenTtl,
       },
     );
-    console.log(accessToken);
+
     // Send confirmation
     return {
       success: isEqual,
