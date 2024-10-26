@@ -8,14 +8,12 @@ import {
   Patch,
   Post,
   Query,
-  Req,
 } from '@nestjs/common';
 import { PostsService } from './providers/posts.service';
 import { CreatePostDto } from './dtos/create-post.dto';
 import { PatchPostDto } from './dtos/patch-post.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { GetPostsDto } from 'src/users/dtos/get-posts.dto';
-import { REQUEST_USER_KEY } from 'src/auth/constants/auth.constants';
 import { ActiveUser } from 'src/auth/decorators/active-user.decorator';
 import { ActiveUserData } from 'src/auth/interfaces/active-user-data.interface';
 
@@ -49,8 +47,7 @@ export class PostsController {
     @Body() createPostDto: CreatePostDto,
     @ActiveUser() user: ActiveUserData,
   ) {
-    console.log(user);
-    // return this.postsService.create(createPostDto);
+    return this.postsService.create(createPostDto, user);
   }
 
   @ApiOperation({

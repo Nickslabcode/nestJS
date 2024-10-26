@@ -20,14 +20,15 @@ const typeorm_1 = require("typeorm");
 const post_entity_1 = require("../post.entity");
 const typeorm_2 = require("@nestjs/typeorm");
 const meta_option_entity_1 = require("../../meta-options/meta-option.entity");
-const create_post_dto_1 = require("../dtos/create-post.dto");
 const tags_service_1 = require("../../tags/providers/tags.service");
 const pagination_service_1 = require("../../common/pagination/providers/pagination.service");
+const create_post_service_1 = require("./create-post.service");
 let PostsService = class PostsService {
-    constructor(usersService, tagsService, paginationService, postsRepository, metaOptionsRepository) {
+    constructor(usersService, tagsService, paginationService, createPostService, postsRepository, metaOptionsRepository) {
         this.usersService = usersService;
         this.tagsService = tagsService;
         this.paginationService = paginationService;
+        this.createPostService = createPostService;
         this.postsRepository = postsRepository;
         this.metaOptionsRepository = metaOptionsRepository;
     }
@@ -45,16 +46,8 @@ let PostsService = class PostsService {
             body: 'This is a post body',
         };
     }
-    async create(createPostDto) {
-        const author = await this.usersService.findOneById(createPostDto.authorId);
-        const tags = await this.tagsService.findMultipleTags(createPostDto.tags);
-        const post = this.postsRepository.create({
-            ...createPostDto,
-            author: author,
-            tags: tags,
-        });
-        console.log(post);
-        return this.postsRepository.save(post);
+    async create(createPostDto, user) {
+        return this.createPostService.create(createPostDto, user);
     }
     async update(patchPostDto) {
         let tags = null;
@@ -123,22 +116,17 @@ exports.PostsService = PostsService;
 __decorate([
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_post_dto_1.CreatePostDto]),
-    __metadata("design:returntype", Promise)
-], PostsService.prototype, "create", null);
-__decorate([
-    __param(0, (0, common_1.Body)()),
-    __metadata("design:type", Function),
     __metadata("design:paramtypes", [patch_post_dto_1.PatchPostDto]),
     __metadata("design:returntype", Promise)
 ], PostsService.prototype, "update", null);
 exports.PostsService = PostsService = __decorate([
     (0, common_1.Injectable)(),
-    __param(3, (0, typeorm_2.InjectRepository)(post_entity_1.Post)),
-    __param(4, (0, typeorm_2.InjectRepository)(meta_option_entity_1.MetaOption)),
+    __param(4, (0, typeorm_2.InjectRepository)(post_entity_1.Post)),
+    __param(5, (0, typeorm_2.InjectRepository)(meta_option_entity_1.MetaOption)),
     __metadata("design:paramtypes", [users_service_1.UsersService,
         tags_service_1.TagsService,
         pagination_service_1.PaginationService,
+        create_post_service_1.CreatePostService,
         typeorm_1.Repository,
         typeorm_1.Repository])
 ], PostsService);

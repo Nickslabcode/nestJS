@@ -8,20 +8,23 @@ import { TagsService } from '../../tags/providers/tags.service';
 import { GetPostsDto } from 'src/users/dtos/get-posts.dto';
 import { PaginationService } from 'src/common/pagination/providers/pagination.service';
 import { Paginated } from 'src/common/pagination/interfaces/paginated.interface';
+import { CreatePostService } from './create-post.service';
+import { ActiveUserData } from 'src/auth/interfaces/active-user-data.interface';
 export declare class PostsService {
     private readonly usersService;
     private readonly tagsService;
     private readonly paginationService;
+    private readonly createPostService;
     private readonly postsRepository;
     private readonly metaOptionsRepository;
-    constructor(usersService: UsersService, tagsService: TagsService, paginationService: PaginationService, postsRepository: Repository<Post>, metaOptionsRepository: Repository<MetaOption>);
+    constructor(usersService: UsersService, tagsService: TagsService, paginationService: PaginationService, createPostService: CreatePostService, postsRepository: Repository<Post>, metaOptionsRepository: Repository<MetaOption>);
     findAll(postQuery: GetPostsDto, userId: string): Promise<Paginated<Post>>;
     FindOneById(id: number): {
         title: string;
         author: string;
         body: string;
     };
-    create(createPostDto: CreatePostDto): Promise<Post>;
+    create(createPostDto: CreatePostDto, user: ActiveUserData): Promise<Post>;
     update(patchPostDto: PatchPostDto): Promise<any>;
     delete(id: number): Promise<{
         deleted: boolean;

@@ -9,8 +9,7 @@ export declare class CreatePostDto {
     content?: string;
     schema?: string;
     featuredImageUrl?: string;
-    publishedOn?: Date;
+    publishedOn?: string;
     tags?: number[];
     metaOptions?: CreatePostMetaOptionsDto | null;
-    authorId: number;
 }

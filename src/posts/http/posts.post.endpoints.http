@@ -1,6 +1,6 @@
 POST http://localhost:3000/posts
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjE2LCJlbWFpbCI6Im5pY2tAZ21haWwuY29tIiwiaWF0IjoxNzI5ODcxNTg4LCJleHAiOjE3Mjk4NzUxODgsImF1ZCI6ImxvY2FsaG9zdDozMDAwIiwiaXNzIjoibG9jYWxob3N0OjMwMDAifQ.drx0HU-Wom53fVF6NSIF_jBS5UR4zCDy1WsQk9P8coI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjE2LCJlbWFpbCI6Im5pY2tAZ21haWwuY29tIiwiaWF0IjoxNzI5OTI1Nzc1LCJleHAiOjE3Mjk5MjkzNzUsImF1ZCI6ImxvY2FsaG9zdDozMDAwIiwiaXNzIjoibG9jYWxob3N0OjMwMDAifQ.X6BggNOn-nhTbjAhBYlnXRyDu6cJSU7rbxdaLVPyHV8
 
 {
   "title": "test post 2",
@@ -10,9 +10,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjE2LCJlbWFpb
   "content": "This is a test post body",
   "schema": "{\"type\": \"test\"}",
   "publishedOn": "2024-09-22T14:00:00.000Z",
-  "tags": [2, 3],
+  "tags": [1, 2],
   "metaOptions": {
     "metaValue": "{\"sidebarEnabled\":true, \"footerActive\":true}"
-  },
-  "authorId": 1
+  }
+
 }

@@ -16,13 +16,14 @@ const typeorm_1 = require("@nestjs/typeorm");
 const post_entity_1 = require("./post.entity");
 const meta_option_entity_1 = require("../meta-options/meta-option.entity");
 const pagination_module_1 = require("../common/pagination/pagination.module");
+const create_post_service_1 = require("./providers/create-post.service");
 let PostsModule = class PostsModule {
 };
 exports.PostsModule = PostsModule;
 exports.PostsModule = PostsModule = __decorate([
     (0, common_1.Module)({
         controllers: [posts_controller_1.PostsController],
-        providers: [posts_service_1.PostsService],
+        providers: [posts_service_1.PostsService, create_post_service_1.CreatePostService],
         imports: [
             users_module_1.UsersModule,
             tags_module_1.TagsModule,

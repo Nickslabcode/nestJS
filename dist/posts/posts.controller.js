@@ -29,7 +29,7 @@ let PostsController = class PostsController {
         return this.postsService.findAll(postQuery, userId);
     }
     createPost(createPostDto, user) {
-        console.log(user);
+        return this.postsService.create(createPostDto, user);
     }
     patchPost(patchPostDto) {
         return this.postsService.update(patchPostDto);

@@ -7,7 +7,7 @@ export declare class PostsController {
     private readonly postsService;
     constructor(postsService: PostsService);
     getPosts(userId: string, postQuery: GetPostsDto): Promise<import("../common/pagination/interfaces/paginated.interface").Paginated<import("./post.entity").Post>>;
-    createPost(createPostDto: CreatePostDto, user: ActiveUserData): void;
+    createPost(createPostDto: CreatePostDto, user: ActiveUserData): Promise<import("./post.entity").Post>;
     patchPost(patchPostDto: PatchPostDto): Promise<any>;
     deletePost(id: number): Promise<{
         deleted: boolean;

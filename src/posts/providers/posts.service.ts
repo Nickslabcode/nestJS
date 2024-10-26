@@ -15,6 +15,8 @@ import { TagsService } from '../../tags/providers/tags.service';
 import { GetPostsDto } from 'src/users/dtos/get-posts.dto';
 import { PaginationService } from 'src/common/pagination/providers/pagination.service';
 import { Paginated } from 'src/common/pagination/interfaces/paginated.interface';
+import { CreatePostService } from './create-post.service';
+import { ActiveUserData } from 'src/auth/interfaces/active-user-data.interface';
 
 @Injectable()
 export class PostsService {
@@ -35,6 +37,11 @@ export class PostsService {
      */
 
     private readonly paginationService: PaginationService,
+
+    /**
+     * Injecting createPostService
+     */
+    private readonly createPostService: CreatePostService,
 
     /**
      * Injecting PostsRepository
@@ -75,20 +82,8 @@ export class PostsService {
     };
   }
 
-  public async create(@Body() createPostDto: CreatePostDto) {
-    // Find author from db based on the authorId
-    const author = await this.usersService.findOneById(createPostDto.authorId);
-
-    // Find tags
-    const tags = await this.tagsService.findMultipleTags(createPostDto.tags);
-
-    const post = this.postsRepository.create({
-      ...createPostDto,
-      author: author,
-      tags: tags,
-    });
-    console.log(post);
-    return this.postsRepository.save(post);
+  public async create(createPostDto: CreatePostDto, user: ActiveUserData) {
+    return this.createPostService.create(createPostDto, user);
   }
 
   public async update(@Body() patchPostDto: PatchPostDto) {

@@ -93,7 +93,7 @@ export class CreatePostDto {
   })
   @IsOptional()
   @IsISO8601()
-  publishedOn?: Date;
+  publishedOn?: string;
 
   @ApiPropertyOptional({
     description: 'Array of ids of tags',
@@ -122,13 +122,4 @@ export class CreatePostDto {
   @ValidateNested({ each: true })
   @Type(() => CreatePostMetaOptionsDto)
   metaOptions?: CreatePostMetaOptionsDto | null;
-
-  @IsNotEmpty()
-  @IsInt()
-  @ApiProperty({
-    type: 'integer',
-    required: true,
-    example: 1,
-  })
-  authorId: number;
 }
