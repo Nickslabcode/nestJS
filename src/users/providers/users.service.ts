@@ -15,6 +15,7 @@ import { UsersCreateManyService } from './users-create-many.service';
 import { CreateManyUsersDto } from '../dtos/create-many-users.dto';
 import { CreateUserService } from './create-user.service';
 import { FindOneByEmailService } from './find-one-by-email.service';
+import { FindOneByGoogleIdService } from './find-one-by-google-id.service';
 
 @Injectable()
 export class UsersService {
@@ -46,6 +47,11 @@ export class UsersService {
      * Injecting findOneByEmailService
      */
     private readonly findOneByEmailService: FindOneByEmailService,
+
+    /**
+     * Injecting findOneByGoogleIdService
+     */
+    private readonly findOneByGoogleIdService: FindOneByGoogleIdService,
   ) {}
 
   public async createUser(createUserDto: CreateUserDto) {
@@ -95,5 +101,9 @@ export class UsersService {
 
   public async findOneByEmail(email: string) {
     return this.findOneByEmailService.findOneByEmail(email);
+  }
+
+  public async findOneByGoogleId(googleId: string) {
+    return this.findOneByGoogleIdService.findOneByGoogleId(googleId);
   }
 }

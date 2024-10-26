@@ -1,3 +1,4 @@
+import { GoogleTokenDto } from './../dtos/google-token.dto';
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { OAuth2Client } from 'google-auth-library';
@@ -19,5 +20,13 @@ export class GoogleAuthenticationService implements OnModuleInit {
     const clientId = this.jwtConfiguration.googleClientId;
     const clientSecret = this.jwtConfiguration.googleClientSecret;
     this.oAuthClient = new OAuth2Client(clientId, clientSecret);
+  }
+
+  public async authenticate(googleTokenDto: GoogleTokenDto) {
+    // Verify Google token sent by user
+    // Extract the payload from Google JWT
+    // Find the user in our database using the GoogleId
+    // If GoogleId exists, generate token
+    // else create new user and then generate token
   }
 }

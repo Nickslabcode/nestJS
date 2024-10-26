@@ -16,6 +16,7 @@ const user_entity_1 = require("./user.entity");
 const users_create_many_service_1 = require("./providers/users-create-many.service");
 const create_user_service_1 = require("./providers/create-user.service");
 const find_one_by_email_service_1 = require("./providers/find-one-by-email.service");
+const find_one_by_google_id_service_1 = require("./providers/find-one-by-google-id.service");
 let UsersModule = class UsersModule {
 };
 exports.UsersModule = UsersModule;
@@ -27,6 +28,7 @@ exports.UsersModule = UsersModule = __decorate([
             users_create_many_service_1.UsersCreateManyService,
             create_user_service_1.CreateUserService,
             find_one_by_email_service_1.FindOneByEmailService,
+            find_one_by_google_id_service_1.FindOneByGoogleIdService,
         ],
         exports: [users_service_1.UsersService],
         imports: [(0, common_1.forwardRef)(() => auth_module_1.AuthModule), typeorm_1.TypeOrmModule.forFeature([user_entity_1.User])],
