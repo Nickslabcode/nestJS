@@ -17,6 +17,7 @@ const sign_in_service_1 = require("./providers/sign-in.service");
 const config_1 = require("@nestjs/config");
 const jwt_config_1 = require("./config/jwt.config");
 const jwt_1 = require("@nestjs/jwt");
+const generate_tokens_service_1 = require("./providers/generate-tokens.service");
 let AuthModule = class AuthModule {
 };
 exports.AuthModule = AuthModule;
@@ -30,6 +31,7 @@ exports.AuthModule = AuthModule = __decorate([
                 useClass: bcrypt_service_1.BcryptService,
             },
             sign_in_service_1.SignInService,
+            generate_tokens_service_1.GenerateTokensService,
         ],
         imports: [
             (0, common_1.forwardRef)(() => users_module_1.UsersModule),
