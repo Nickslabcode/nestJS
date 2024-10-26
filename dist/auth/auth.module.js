@@ -18,6 +18,7 @@ const config_1 = require("@nestjs/config");
 const jwt_config_1 = require("./config/jwt.config");
 const jwt_1 = require("@nestjs/jwt");
 const generate_tokens_service_1 = require("./providers/generate-tokens.service");
+const refresh_tokens_service_1 = require("./providers/refresh-tokens.service");
 let AuthModule = class AuthModule {
 };
 exports.AuthModule = AuthModule;
@@ -32,6 +33,7 @@ exports.AuthModule = AuthModule = __decorate([
             },
             sign_in_service_1.SignInService,
             generate_tokens_service_1.GenerateTokensService,
+            refresh_tokens_service_1.RefreshTokensService,
         ],
         imports: [
             (0, common_1.forwardRef)(() => users_module_1.UsersModule),
