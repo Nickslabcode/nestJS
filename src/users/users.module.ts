@@ -8,6 +8,7 @@ import { UsersCreateManyService } from './providers/users-create-many.service';
 import { CreateUserService } from './providers/create-user.service';
 import { FindOneByEmailService } from './providers/find-one-by-email.service';
 import { FindOneByGoogleIdService } from './providers/find-one-by-google-id.service';
+import { CreateGoogleUserService } from './providers/create-google-user.service';
 
 @Module({
   controllers: [UsersController],
@@ -17,6 +18,7 @@ import { FindOneByGoogleIdService } from './providers/find-one-by-google-id.serv
     CreateUserService,
     FindOneByEmailService,
     FindOneByGoogleIdService,
+    CreateGoogleUserService,
   ],
   exports: [UsersService],
   imports: [forwardRef(() => AuthModule), TypeOrmModule.forFeature([User])],

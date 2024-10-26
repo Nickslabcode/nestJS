@@ -22,14 +22,16 @@ const users_create_many_service_1 = require("./users-create-many.service");
 const create_user_service_1 = require("./create-user.service");
 const find_one_by_email_service_1 = require("./find-one-by-email.service");
 const find_one_by_google_id_service_1 = require("./find-one-by-google-id.service");
+const create_google_user_service_1 = require("./create-google-user.service");
 let UsersService = class UsersService {
-    constructor(authService, usersRepository, usersCreateManyService, createUserService, findOneByEmailService, findOneByGoogleIdService) {
+    constructor(authService, usersRepository, usersCreateManyService, createUserService, findOneByEmailService, findOneByGoogleIdService, createGoogleUserService) {
         this.authService = authService;
         this.usersRepository = usersRepository;
         this.usersCreateManyService = usersCreateManyService;
         this.createUserService = createUserService;
         this.findOneByEmailService = findOneByEmailService;
         this.findOneByGoogleIdService = findOneByGoogleIdService;
+        this.createGoogleUserService = createGoogleUserService;
     }
     async createUser(createUserDto) {
         return this.createUserService.createUser(createUserDto);
@@ -65,6 +67,9 @@ let UsersService = class UsersService {
     async findOneByGoogleId(googleId) {
         return this.findOneByGoogleIdService.findOneByGoogleId(googleId);
     }
+    async createGoogleUser(googleUser) {
+        return this.createGoogleUserService.createGoogleUser(googleUser);
+    }
 };
 exports.UsersService = UsersService;
 exports.UsersService = UsersService = __decorate([
@@ -76,6 +81,7 @@ exports.UsersService = UsersService = __decorate([
         users_create_many_service_1.UsersCreateManyService,
         create_user_service_1.CreateUserService,
         find_one_by_email_service_1.FindOneByEmailService,
-        find_one_by_google_id_service_1.FindOneByGoogleIdService])
+        find_one_by_google_id_service_1.FindOneByGoogleIdService,
+        create_google_user_service_1.CreateGoogleUserService])
 ], UsersService);
 //# sourceMappingURL=users.service.js.map
