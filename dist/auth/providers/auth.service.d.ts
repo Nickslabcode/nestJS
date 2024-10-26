@@ -6,9 +6,8 @@ export declare class AuthService {
     private readonly signInService;
     constructor(usersService: UsersService, signInService: SignInService);
     signIn(signInDto: SignInDto): Promise<{
-        success: true;
         accessToken: string;
-        message: string;
+        refreshToken: string;
     }>;
     isAuth(): boolean;
 }
