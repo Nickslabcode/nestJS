@@ -19,12 +19,14 @@ const jwt_config_1 = require("./config/jwt.config");
 const jwt_1 = require("@nestjs/jwt");
 const generate_tokens_service_1 = require("./providers/generate-tokens.service");
 const refresh_tokens_service_1 = require("./providers/refresh-tokens.service");
+const google_authentication_controller_1 = require("./social/google-authentication.controller");
+const google_authentication_service_1 = require("./social/providers/google-authentication.service");
 let AuthModule = class AuthModule {
 };
 exports.AuthModule = AuthModule;
 exports.AuthModule = AuthModule = __decorate([
     (0, common_1.Module)({
-        controllers: [auth_controller_1.AuthController],
+        controllers: [auth_controller_1.AuthController, google_authentication_controller_1.GoogleAuthenticationController],
         providers: [
             auth_service_1.AuthService,
             {
@@ -34,6 +36,7 @@ exports.AuthModule = AuthModule = __decorate([
             sign_in_service_1.SignInService,
             generate_tokens_service_1.GenerateTokensService,
             refresh_tokens_service_1.RefreshTokensService,
+            google_authentication_service_1.GoogleAuthenticationService,
         ],
         imports: [
             (0, common_1.forwardRef)(() => users_module_1.UsersModule),

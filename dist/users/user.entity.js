@@ -48,10 +48,17 @@ __decorate([
     (0, typeorm_1.Column)({
         type: 'varchar',
         length: 96,
-        nullable: false,
+        nullable: true,
     }),
     __metadata("design:type", String)
 ], User.prototype, "password", void 0);
+__decorate([
+    (0, typeorm_1.Column)({
+        type: 'varchar',
+        nullable: true,
+    }),
+    __metadata("design:type", String)
+], User.prototype, "googleId", void 0);
 __decorate([
     (0, typeorm_1.OneToMany)(() => post_entity_1.Post, (posts) => posts.author),
     __metadata("design:type", Array)

@@ -4,6 +4,7 @@ export declare class User {
     firstName: string;
     lastName: string;
     email: string;
-    password: string;
+    password?: string;
+    googleId?: string;
     posts: Post[];
 }
