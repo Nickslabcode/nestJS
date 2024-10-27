@@ -26,6 +26,7 @@ const jwt_1 = require("@nestjs/jwt");
 const core_1 = require("@nestjs/core");
 const access_token_guard_1 = require("./auth/guards/access-token/access-token.guard");
 const authentication_guard_1 = require("./auth/guards/authentication/authentication.guard");
+const data_response_interceptor_1 = require("./common/interceptors/data-response/data-response.interceptor");
 const ENV = process.env.NODE_ENV;
 let AppModule = class AppModule {
 };
@@ -68,6 +69,10 @@ exports.AppModule = AppModule = __decorate([
             {
                 provide: core_1.APP_GUARD,
                 useClass: authentication_guard_1.AuthenticationGuard,
+            },
+            {
+                provide: core_1.APP_INTERCEPTOR,
+                useClass: data_response_interceptor_1.DataResponseInterceptor,
             },
             access_token_guard_1.AccessTokenGuard,
         ],
