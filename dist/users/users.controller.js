@@ -73,6 +73,7 @@ __decorate([
 __decorate([
     (0, common_1.Post)(),
     (0, auth_decorator_1.Auth)(auth_type_enum_1.AuthType.NONE),
+    (0, common_1.UseInterceptors)(common_1.ClassSerializerInterceptor),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_user_dto_1.CreateUserDto]),
