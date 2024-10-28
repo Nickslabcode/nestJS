@@ -1,4 +1,3 @@
-import { Authorization } from './../../node_modules/aws-sdk/clients/mediapackage.d';
 import {
   Controller,
   Post,

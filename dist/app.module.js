@@ -27,6 +27,7 @@ const core_1 = require("@nestjs/core");
 const access_token_guard_1 = require("./auth/guards/access-token/access-token.guard");
 const authentication_guard_1 = require("./auth/guards/authentication/authentication.guard");
 const data_response_interceptor_1 = require("./common/interceptors/data-response/data-response.interceptor");
+const uploads_module_1 = require("./uploads/uploads.module");
 const ENV = process.env.NODE_ENV;
 let AppModule = class AppModule {
 };
@@ -62,6 +63,7 @@ exports.AppModule = AppModule = __decorate([
             tags_module_1.TagsModule,
             meta_options_module_1.MetaOptionsModule,
             pagination_module_1.PaginationModule,
+            uploads_module_1.UploadsModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [
