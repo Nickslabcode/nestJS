@@ -1,3 +1,4 @@
+import { MailService } from './../../mail/providers/mail.service';
 import {
   BadRequestException,
   forwardRef,
@@ -25,6 +26,11 @@ export class CreateUserService {
      */
     @Inject(forwardRef(() => HashingService)) // necessary when there's a circular dependency
     private readonly hashingService: HashingService,
+
+    /**
+     * Injecting mailService
+     */
+    private readonly mailService: MailService,
   ) {}
 
   public async createUser(createUserDto: CreateUserDto) {
@@ -67,6 +73,13 @@ export class CreateUserService {
           description: 'Error connecting to the database',
         },
       );
+    }
+
+    try {
+      await this.mailService.sendUserWelcome(newUser);
+    } catch (error) {
+      console.log(error);
+      throw new RequestTimeoutException(error);
     }
 
     return newUser;

@@ -1,18 +1,18 @@
 import { Global, Module } from '@nestjs/common';
+
+import { ConfigService } from '@nestjs/config';
+import { EjsAdapter } from '@nestjs-modules/mailer/dist/adapters/ejs.adapter';
 import { MailService } from './providers/mail.service';
 import { MailerModule } from '@nestjs-modules/mailer';
-import { ConfigService } from '@nestjs/config';
 import { join } from 'path';
-import { EjsAdapter } from '@nestjs-modules/mailer/dist/adapters/ejs.adapter';
 
 @Global()
 @Module({
   imports: [
     MailerModule.forRootAsync({
-      inject: [ConfigService],
       useFactory: async (config: ConfigService) => ({
         transport: {
-          host: config.get('appConfig.mailHost'),
+          host: config.get<string>('appConfig.mailHost'),
           secure: false,
           port: 2525,
           auth: {
@@ -20,8 +20,8 @@ import { EjsAdapter } from '@nestjs-modules/mailer/dist/adapters/ejs.adapter';
             pass: config.get('appConfig.smtpPassword'),
           },
         },
-        default: {
-          from: `My Blog <no-reply@nestjs-blog.com>`,
+        defaults: {
+          from: `"My Blog" <no-reply@nestjs-blog.com>`,
         },
         template: {
           dir: join(__dirname, 'templates'),
@@ -31,6 +31,7 @@ import { EjsAdapter } from '@nestjs-modules/mailer/dist/adapters/ejs.adapter';
           },
         },
       }),
+      inject: [ConfigService],
     }),
   ],
   providers: [MailService],

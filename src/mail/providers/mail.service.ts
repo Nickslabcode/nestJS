@@ -16,7 +16,7 @@ export class MailService {
       to: user.email,
       from: `Onboarding Team <support@nestjs-blog.com>`, // setting the from email manually
       subject: 'Welcome to NestJS blog',
-      template: './welcome',
+      template: 'welcome',
       context: {
         name: user.firstName,
         email: user.email,
