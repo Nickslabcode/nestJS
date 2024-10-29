@@ -62,6 +62,7 @@ describe('CreateUserService', () => {
         usersRepository.create.mockReturnValue(user);
         usersRepository.save.mockReturnValue(user);
 
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const newUser = await service.createUser(user);
 
         expect(usersRepository.findOne).toHaveBeenCalledWith({
@@ -81,6 +82,7 @@ describe('CreateUserService', () => {
         usersRepository.save.mockReturnValue(user);
 
         try {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const newUser = await service.createUser(user);
         } catch (error) {
           expect(error).toBeInstanceOf(BadRequestException);
