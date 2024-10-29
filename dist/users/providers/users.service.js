@@ -14,7 +14,6 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersService = void 0;
 const typeorm_1 = require("@nestjs/typeorm");
-const auth_service_1 = require("../../auth/providers/auth.service");
 const common_1 = require("@nestjs/common");
 const typeorm_2 = require("typeorm");
 const user_entity_1 = require("../user.entity");
@@ -24,8 +23,7 @@ const find_one_by_email_service_1 = require("./find-one-by-email.service");
 const find_one_by_google_id_service_1 = require("./find-one-by-google-id.service");
 const create_google_user_service_1 = require("./create-google-user.service");
 let UsersService = class UsersService {
-    constructor(authService, usersRepository, usersCreateManyService, createUserService, findOneByEmailService, findOneByGoogleIdService, createGoogleUserService) {
-        this.authService = authService;
+    constructor(usersRepository, usersCreateManyService, createUserService, findOneByEmailService, findOneByGoogleIdService, createGoogleUserService) {
         this.usersRepository = usersRepository;
         this.usersCreateManyService = usersCreateManyService;
         this.createUserService = createUserService;
@@ -74,10 +72,8 @@ let UsersService = class UsersService {
 exports.UsersService = UsersService;
 exports.UsersService = UsersService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, common_1.Inject)((0, common_1.forwardRef)(() => auth_service_1.AuthService))),
-    __param(1, (0, typeorm_1.InjectRepository)(user_entity_1.User)),
-    __metadata("design:paramtypes", [auth_service_1.AuthService,
-        typeorm_2.Repository,
+    __param(0, (0, typeorm_1.InjectRepository)(user_entity_1.User)),
+    __metadata("design:paramtypes", [typeorm_2.Repository,
         users_create_many_service_1.UsersCreateManyService,
         create_user_service_1.CreateUserService,
         find_one_by_email_service_1.FindOneByEmailService,

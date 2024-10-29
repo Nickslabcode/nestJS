@@ -1,11 +1,8 @@
 import { CreateUserDto } from './../dtos/create-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { AuthService } from '../../auth/providers/auth.service';
 import { GetUsersParamDto } from './../dtos/get-users-param.dto';
 import {
   Injectable,
-  Inject,
-  forwardRef,
   RequestTimeoutException,
   BadRequestException,
 } from '@nestjs/common';
@@ -22,12 +19,6 @@ import { GoogleUser } from '../interfaces/google-user.interface';
 @Injectable()
 export class UsersService {
   constructor(
-    /**
-     * Injecting AuthService
-     */
-    @Inject(forwardRef(() => AuthService))
-    private readonly authService: AuthService,
-
     /**
      * Injecting UsersRepository
      */
