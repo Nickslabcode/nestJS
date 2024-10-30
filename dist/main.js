@@ -5,7 +5,7 @@ const app_module_1 = require("./app.module");
 const app_create_1 = require("./app.create");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
-    await (0, app_create_1.appCreate)(app);
+    (0, app_create_1.appCreate)(app);
     await app.listen(3000);
 }
 bootstrap();

@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { config } from 'aws-sdk';
 
-export async function appCreate(app: INestApplication) {
+export function appCreate(app: INestApplication) {
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
